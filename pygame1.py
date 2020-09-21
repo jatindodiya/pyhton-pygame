@@ -74,6 +74,9 @@ class player(object):
             self.playerVisible = False
             displayMessage("Game Over")
             pygame.time.delay(2000)
+            redrawGameWindow()
+            displayMessage("your score is = " + str(score))
+            pygame.time.delay(2000)
             exit(0)
             
         self.x = 0
@@ -102,8 +105,8 @@ class enemy(object):
         self.height = height
         self.path = [x, end]
         self.walkCount = 0
-        self.vel = 3
-        self.health = 10
+        self.vel = 2 + (level)
+        self.health = 8 + (2*level)
         self.visible = True 
         self.hitbox = (self.x + 17, self.y + 2, 31, 57)
         
@@ -120,9 +123,9 @@ class enemy(object):
             self.walkCount += 1
 
         pygame.draw.rect(win, (255,0,0), (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
-        pygame.draw.rect(win, (0,110,0), (self.hitbox[0]+1, self.hitbox[1] - 19, 48 - int(48/10*(10-self.health)), 8))
+        pygame.draw.rect(win, (0,110,0), (self.hitbox[0]+1, self.hitbox[1] - 19, 48 - int(48/(8+(2*level))*(8+(2*level)-self.health)), 8))
         self.hitbox = (self.x + 17, self.y + 2, 31, 57)
-        #pygame.draw.rect(win, (255,0,0), self.hitbox,2)
+        #pygame.draw.rect(win, (255,0,0), self.hitbox,e
             
     def move(self):
         if self.vel > 0:
@@ -178,6 +181,24 @@ def displayMessage(message):
     text = font.render(message, 1, (255,0,0))
     win.blit(text,(screen_width//2 - int(text.get_width()/2),200))
     pygame.display.update()
+
+def gameStart():
+    win.blit(bg,(0,0))
+    stay = True
+    while stay:
+        clock.tick(27)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                stay = False
+        keys = pygame.key.get_pressed()
+        pygame.display.update()
+        displayMessage("let's start hunting press Space bar to start")
+        if keys[pygame.K_SPACE]:
+            break
+          
+        
+            
+        
     
     
 #main loop
@@ -188,8 +209,11 @@ level = 0
 respon = True
 shootLoop = 0
 run = True
+gameStart()
 while run:
     clock.tick(27)
+
+    
 
                 
     if shootLoop > 0:
@@ -212,6 +236,7 @@ while run:
     if len(goblins) == 0:
         respon = True
         level += 1
+        
         displayMessage("level "+ str(level))
         pygame.time.delay(2000)
         
