@@ -72,17 +72,17 @@ class player(object):
         self.health -= 2
         if self.health <= 0:
             self.playerVisible = False
-            displayMessage("Game Over")
+            displayMessage("Game Over",100,200)
             pygame.time.delay(2000)
             redrawGameWindow()
-            displayMessage("your score is = " + str(score))
+            displayMessage("your score is = " + str(score),100,200)
             pygame.time.delay(2000)
             exit(0)
             
         self.x = 0
         self.y = 350
         self.walkCount = 0
-        displayMessage("-5")
+        displayMessage("-5",100,200)
         pygame.display.update()
         i = 0
         while i < 300:
@@ -176,10 +176,10 @@ def redrawGameWindow():
     pygame.display.update()
 
 
-def displayMessage(message):
-    font = pygame.font.SysFont('comicsans', 100)
+def displayMessage(message,fontSize, height):
+    font = pygame.font.SysFont('comicsans', fontSize)
     text = font.render(message, 1, (255,0,0))
-    win.blit(text,(screen_width//2 - int(text.get_width()/2),200))
+    win.blit(text,(screen_width//2 - int(text.get_width()/2),height))
     pygame.display.update()
 
 def gameStart():
@@ -192,15 +192,13 @@ def gameStart():
                 stay = False
         keys = pygame.key.get_pressed()
         pygame.display.update()
-        displayMessage("let's start hunting press Space bar to start")
+        displayMessage("let's start hunting",50,100)
+        displayMessage("press spacebar to start the game",50,200)
         if keys[pygame.K_SPACE]:
+            win.blit(bg,(0,0))
             break
           
-        
-            
-        
-    
-    
+           
 #main loop
 man = player(50,350,64,64)
 bullets = []
@@ -237,7 +235,7 @@ while run:
         respon = True
         level += 1
         
-        displayMessage("level "+ str(level))
+        displayMessage("level "+ str(level),100,200)
         pygame.time.delay(2000)
         
     for goblin in goblins:
